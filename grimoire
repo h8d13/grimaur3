@@ -499,7 +499,7 @@ def _aur_rpc_pkgbase(package: str) -> str | None:
 	if DEBUG:
 		print(f"+ GET {url}", file=sys.stderr)
 	try:
-		with urlopen(url, timeout=10) as response:  # noqa: S310 - hardcoded https AUR endpoint
+		with urlopen(url, timeout=10) as response:
 			data = json.loads(response.read().decode())
 	except (OSError, ValueError):
 		return None
@@ -2865,7 +2865,7 @@ def _fetch_aur_meta() -> list[tuple[str, str | None, str | None]] | None:
 	if DEBUG:
 		print(f"+ GET {url}", file=sys.stderr)
 	try:
-		with urlopen(url, timeout=30) as response:  # noqa: S310 - hardcoded https AUR endpoint
+		with urlopen(url, timeout=30) as response:
 			raw = json.loads(gzip.decompress(response.read()).decode())
 	except (OSError, ValueError) as exc:
 		if DEBUG:
