@@ -324,6 +324,10 @@ def _get_elev() -> str:
 def _elevate(cmd: list[str]) -> list[str]:
 	if os.geteuid() == 0:
 		return cmd
+	# doas matches `cmd` rules against argv[0] as typed; makepkg already
+	# passes its PACMAN_AUTH tool the full PACMAN_PATH. Resolve ours the
+	# same way so one `/usr/bin/pacman` rule covers both callers.
+	cmd = [shutil.which(cmd[0]) or cmd[0], *cmd[1:]]
 	tool = _get_elev()
 	if tool == "su":
 		return ["su", "-c", shlex.join(cmd), "root"]
